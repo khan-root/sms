@@ -14,15 +14,30 @@ datasource db {
 }
 
 
+model SuperAdmin {
+  id String @id @default(uuid())
+  name String
+  email String @unique
+  organizations Organization[]
+  role SuperAdminRole @default(SUPERADMIN)
+  password String
+}
+
 model Organization {
   id String @id @default(uuid())
   name String? @unique
   email String @unique
   password String?
-  role Role @default(ADMIN)
+  superAdmin SuperAdmin @relation(fields: [superAdminId] , references: [id])
+  superAdminId String
   created_at DateTime @default(now())
 }
 
+
+
+enum SuperAdminRole{
+  SUPERADMIN
+}
 
 enum Role{
   USER
