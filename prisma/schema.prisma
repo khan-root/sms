@@ -18,19 +18,19 @@ model SuperAdmin {
   id String @id @default(uuid())
   name String
   email String @unique
-  organizations Organization[]
   role SuperAdminRole @default(SUPERADMIN)
   password String
 }
 
-model Organization {
+
+model User {
   id String @id @default(uuid())
-  name String? @unique
+  name String
   email String @unique
-  password String?
-  superAdmin SuperAdmin @relation(fields: [superAdminId] , references: [id])
-  superAdminId String
+  password String
+  role Role
   created_at DateTime @default(now())
+  
 }
 
 

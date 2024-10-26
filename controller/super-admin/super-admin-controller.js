@@ -26,7 +26,7 @@ export const cerateSuperAdmin =asyncHandler(async(req, res, next)=>{
         }
     }) 
     return res.status(201).json(
-        new ApiResponse(newSuperaAdmin, "Super Admin Created Successfully")
+        new ApiResponse(newSuperaAdmin,"SUCCESSFUL", "Super Admin Created Successfully")
     )
 })
 
@@ -34,7 +34,6 @@ export const cerateSuperAdmin =asyncHandler(async(req, res, next)=>{
 
 export const signInSuperAdmin = asyncHandler(async(req, res, next)=>{
     const jwtSecret = process.env.JWT_SECRET
-    console.log(jwtSecret)
     const {email, password} = req.body
     const { error } = superAdminSignInScheam.validate(req.body)
     if(error){
@@ -46,20 +45,19 @@ export const signInSuperAdmin = asyncHandler(async(req, res, next)=>{
     }
     const checkPassword =  await compare(password, findSAdmin.password)
     if(!checkPassword){
-        return next(CustomErrorHandler.credential("Incorrect Password"))
+        return next(CustomErrorHandler.credential("Check your credential "))
     }
     const token = jwt.sign(
     {
       id: findSAdmin.id, // Include necessary user info in the payload
       email: findSAdmin.email,
+      role:findSAdmin.role
     },
     jwtSecret, 
     { expiresIn: '1h' } // Token expiry time
   );
 
 
-    // console.log('token', token)
-    // return
     return res.status(200).json(
         new ApiResponse({...findSAdmin, token}, "SUCCESSFUL", "Login Successfully")
     )

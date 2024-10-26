@@ -17,4 +17,11 @@ export class CustomErrorHandler extends Error{
     static credential(msg){
         return new CustomErrorHandler(401, msg)
     }
+    static unauthorized(msg){
+        return new CustomErrorHandler(401,msg)
+    }
+
+    static forebidden(mgs){
+        return new CustomErrorHandler(403, msg)
+    }
 }

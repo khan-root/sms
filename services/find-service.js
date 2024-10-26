@@ -13,3 +13,14 @@ export const findSuperAdmin = async(email)=>{
     })
     return superAdmin
 }
+
+
+
+export const findUser = async(email)=>{
+    const user = prisma.user.findFirst({
+        where:{
+            email:email
+        }
+    })
+    return user
+}
